@@ -57,9 +57,12 @@ public class LinkedListMultiSet extends MultiSet {
     public int count(int item) {
         Node curr = front;
         int seen = 0;
-        while (curr != null)
-            if(curr.item == item)
+        while (curr != null) {
+            if (curr.item == item) {
                 seen++;
+            }
+            curr = curr.next;
+        }
         return seen;
     }
 
