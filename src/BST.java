@@ -61,7 +61,7 @@ public class BST {
     public void delete(int item) {
         if(isEmpty())
             return;
-        
+
         if(root == item)
             deleteRoot();
         else if(item < root)
