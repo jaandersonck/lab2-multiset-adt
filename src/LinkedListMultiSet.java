@@ -9,7 +9,6 @@ class Node {
     }
 }
 
-
 public class LinkedListMultiSet extends MultiSet {
 
     // a linked list initially is empty
@@ -25,23 +24,46 @@ public class LinkedListMultiSet extends MultiSet {
     }
 
     public void remove(int item) {
-
+        Node curr = front;
+        Node prev = null;
+        while (curr != null) {
+            if (curr.item == item) {
+                size--;
+                if (prev == null) 
+                    front = curr.next;
+                else
+                    prev.next = curr.next;
+                break;
+            }
+            prev = curr;
+            curr = curr.next;
+        }
     }
 
     public boolean contains(int item) {
+        Node curr = front;
+        while (curr != null) {
+            if(curr.item == item)
+                return true;
+            curr = curr.next;
+        }
         return false;
     }
 
     public boolean isEmpty() {
-        return false;
+        return front == null;
     }
 
-
     public int count(int item) {
-        return -1;
+        Node curr = front;
+        int seen = 0;
+        while (curr != null)
+            if(curr.item == item)
+                seen++;
+        return seen;
     }
 
     public int size() {
-        return -1;
+        return size;
     }
 }

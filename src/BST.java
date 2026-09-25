@@ -29,7 +29,7 @@ public class BST {
 
 
     public boolean isEmpty() {
-        return false; // TODO implement me!
+        return root == null;
     }
 
     public boolean contains(int item) {
@@ -42,38 +42,93 @@ public class BST {
             return this.left.contains(item);
         }
         return this.right.contains(item);
-
     }
 
 
     public void insert(int item) {
-
+        if(isEmpty()) {
+            root = item;
+            left = new BST();
+            right = new BST();
+        }
+        else if(item <= root)
+            left.insert(item);
+        else
+            right.insert(item);
     }
 
 
     public void delete(int item) {
+        if(isEmpty())
+            return;
 
+        if(root == item)
+            deleteRoot();
+        else if(item < root)
+            left.delete(item);
+        else
+            right.delete(item);
     }
 
     private void deleteRoot() {
-
+        boolean emptyL = left.isEmpty();
+        boolean emptyR = right.isEmpty();
+        if(emptyL && emptyR) {
+            root = null;
+            left = null;
+            right = null;
+        }
+        else if(emptyL)
+            cloneFrom(right);
+        else if(emptyR) 
+            cloneFrom(left);
+        else 
+            root = left.extractMax();
     }
 
+    /**
+     * Copies all values from other into the appropriate fields for this object
+     * Added by MTT
+     */
+    private void cloneFrom(BST other) {
+        root = other.root;
+        right = other.right;
+        left = other.left;
+    }
 
+    /**
+     * Requires non-empty BST, returns largest value and removes that node
+    */
     private int extractMax() {
-        return -1;
+        int max = root;
+        if(right.isEmpty()) {
+            deleteRoot();
+            return max;
+        }
+        else
+            return right.extractMax();
     }
 
     public int height() {
-        return -1;
+        if(isEmpty())
+            return 0;
+        return Math.max(right.height(), left.height()) + 1;
     }
 
     public int count(int item) {
-        return -1;
+        if(isEmpty())
+            return 0;
+        if(item < root)
+            return left.count(item);
+        if(item == root)
+            return 1 + left.count(item) + right.count(item);
+        return right.count(item);
     }
 
     public int getSize() {
-        return -1;
+        if(isEmpty())
+            return 0;
+        return 1 + left.getSize() + right.getSize();
     }
 
     public static void main(String[] args) {
